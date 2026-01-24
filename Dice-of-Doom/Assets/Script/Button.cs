@@ -1,25 +1,36 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class NewMonoBehaviourScript : MonoBehaviour
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+public class Button : MonoBehaviour
 {
-    [SerializeField] private SceneAsset sceneToLoad;
+#if UNITY_EDITOR
+    [SerializeField] private SceneAsset scene;
+#endif
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
+    [SerializeField, HideInInspector] private string sceneName;
 
     public void LoadScene()
     {
-        
-        if (sceneToLoad != null)
+        if (string.IsNullOrEmpty(sceneName))
         {
-            SceneManager.LoadScene(sceneToLoad.name);
+            Debug.LogError("Scene belum dipilih!");
+            return;
+        }
+
+        SceneManager.LoadScene(sceneName);
+    }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (scene != null)
+        {
+            sceneName = scene.name;
         }
     }
+#endif
 }
