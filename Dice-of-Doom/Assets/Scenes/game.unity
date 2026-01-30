@@ -419,6 +419,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatController
   maxDamage: 4
   diceUI: {fileID: 971234315}
+  playerHealth: {fileID: 1051303541}
+  enemyDamage: 1
 --- !u!4 &301862878
 Transform:
   m_ObjectHideFlags: 0
@@ -960,13 +962,58 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4868715508985578419, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
         type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 23.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868715508985578419, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 32.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868715508985578419, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 0.86
       objectReference: {fileID: 0}
     - target: {fileID: 7716300704558371452, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
         type: 3}
       propertyPath: m_Name
       value: DicePrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7772552599057135995, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7772552599057135995, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
+        type: 3}
+      propertyPath: m_margin.w
+      value: 2.485364
+      objectReference: {fileID: 0}
+    - target: {fileID: 7772552599057135995, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
+        type: 3}
+      propertyPath: m_margin.y
+      value: 2.7884598
+      objectReference: {fileID: 0}
+    - target: {fileID: 7772552599057135995, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
+        type: 3}
+      propertyPath: m_margin.z
+      value: 0.91493225
+      objectReference: {fileID: 0}
+    - target: {fileID: 7772552599057135995, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7772552599057135995, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 7772552599057135995, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8296442375202826206, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
         type: 3}
@@ -1001,12 +1048,12 @@ PrefabInstance:
     - target: {fileID: 8296442375202826206, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 89.7793
+      value: 96.43
       objectReference: {fileID: 0}
     - target: {fileID: 8296442375202826206, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 95.27521
+      value: 98.34
       objectReference: {fileID: 0}
     - target: {fileID: 8296442375202826206, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
         type: 3}
@@ -1021,7 +1068,7 @@ PrefabInstance:
     - target: {fileID: 8296442375202826206, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9671.398
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8296442375202826206, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
         type: 3}
@@ -1046,7 +1093,7 @@ PrefabInstance:
     - target: {fileID: 8296442375202826206, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 5.71
       objectReference: {fileID: 0}
     - target: {fileID: 8296442375202826206, guid: 30e90d23f12e8ca43a94f16f73e3eefc,
         type: 3}
@@ -1592,8 +1639,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -269, y: 32.638}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -407, y: 30.615}
+  m_SizeDelta: {x: 136.39, y: 37.11}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1094657748
 MonoBehaviour:

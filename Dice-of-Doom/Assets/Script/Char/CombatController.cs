@@ -8,6 +8,8 @@ public class CombatController : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private DiceUI diceUI;
+[SerializeField] private Health playerHealth;
+[SerializeField] private int enemyDamage = 1;
 
         private DiceRoller diceRoller = new DiceRoller();
         private AttackAction attackAction = new AttackAction();
@@ -19,7 +21,7 @@ public class CombatController : MonoBehaviour
 
     void Awake()
     {
-        targetInput = FindObjectOfType<ClickTargetInput2D>();
+targetInput = FindAnyObjectByType<ClickTargetInput2D>();
     }
 
     public void OnRedButtonPressed()
@@ -56,9 +58,22 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    private void EnemyTurn()
+private void EnemyTurn()
+{
+    if (playerHealth == null)
     {
-        Debug.Log("Enemy menyerang balik");
-        playerTurn = true;
+        Debug.LogError("PlayerHealth belum di-assign!");
+        return;
     }
+
+    playerHealth.TakeDamage(enemyDamage);
+
+    Debug.Log(
+        $"ENEMY TURN → Enemy memberi damage {enemyDamage} ke Player. " +
+        $"HP Player sekarang: {playerHealth.CurrentHP}"
+    );
+
+    playerTurn = true;
+}
+
 }
