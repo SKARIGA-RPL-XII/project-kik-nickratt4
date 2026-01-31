@@ -25,29 +25,29 @@ public class AuthManager : MonoBehaviour
     public GameObject loginPanel;
     public GameObject registerPanel;
 
-     public TMP_Text welcomeText;
-
-
     [Header("BUTTON PINDAH PANEL")]
     public GameObject btnToRegister;
-    public GameObject btnToLogin;  
-
+    public GameObject btnToLogin;
 
     [Header("CONFIG")]
     [SerializeField]
     private string baseUrl = "http://127.0.0.1/Dice_of_doom_DB/";
 
-
     void Start()
     {
-
         notifBox.SetActive(false);
 
-        loginPanel.SetActive(true);
-        registerPanel.SetActive(false);
-
-        btnToRegister.SetActive(true);
-        btnToLogin.SetActive(false);
+        if (PlayerPrefs.HasKey("player_id"))
+        {
+            loginPanel.SetActive(false);
+            registerPanel.SetActive(false);
+            btnToRegister.SetActive(false);
+            btnToLogin.SetActive(false);
+        }
+        else
+        {
+            SwitchToLogin();
+        }
     }
 
     // login
@@ -62,16 +62,13 @@ public class AuthManager : MonoBehaviour
 
         StartCoroutine(Login());
     }
-
     IEnumerator Login()
     {
         WWWForm form = new WWWForm();
         form.AddField("email", loginEmail.text.Trim());
         form.AddField("password", loginPassword.text.Trim());
 
-        UnityWebRequest req =
-            UnityWebRequest.Post(baseUrl + "login.php", form);
-
+        UnityWebRequest req = UnityWebRequest.Post(baseUrl + "login.php", form);
         yield return req.SendWebRequest();
 
         if (req.result == UnityWebRequest.Result.Success)
@@ -79,22 +76,19 @@ public class AuthManager : MonoBehaviour
             LoginResponse res =
                 JsonUtility.FromJson<LoginResponse>(req.downloadHandler.text);
 
-           if (res.status == "success")
-{
-    PlayerPrefs.SetInt("player_id", res.player_id);
-    PlayerPrefs.SetString("username", res.username);
+            if (res.status == "success")
+            {
+                PlayerPrefs.SetInt("player_id", res.player_id);
+                PlayerPrefs.SetString("username", res.username);
+                PlayerPrefs.Save();
 
-    welcomeText.text = "Welcome, " + res.username;
+                ShowNotif("Login berhasil", true);
 
-    ShowNotif("Login berhasil", true);
-
-    loginPanel.SetActive(false);
-    registerPanel.SetActive(false);
-
-    yield return new WaitForSeconds(1.2f);
-    SceneManager.LoadScene("game");
-}
-
+                loginPanel.SetActive(false);
+                registerPanel.SetActive(false);
+                btnToRegister.SetActive(false);
+                btnToLogin.SetActive(false);
+            }
             else
             {
                 ShowNotif("Email atau password salah", false);
@@ -103,8 +97,6 @@ public class AuthManager : MonoBehaviour
         else
         {
             ShowNotif("Koneksi ke server gagal", false);
-            Debug.LogError(req.error);
-            Debug.Log("Request ke: " + req.url);
         }
     }
 
@@ -129,9 +121,7 @@ public class AuthManager : MonoBehaviour
         form.AddField("email", regEmail.text.Trim());
         form.AddField("password", regPassword.text.Trim());
 
-        UnityWebRequest req =
-            UnityWebRequest.Post(baseUrl + "register.php", form);
-
+        UnityWebRequest req = UnityWebRequest.Post(baseUrl + "register.php", form);
         yield return req.SendWebRequest();
 
         if (req.result == UnityWebRequest.Result.Success)
@@ -152,7 +142,6 @@ public class AuthManager : MonoBehaviour
         else
         {
             ShowNotif("Koneksi ke server gagal", false);
-            Debug.LogError(req.error);
         }
     }
 
@@ -160,11 +149,10 @@ public class AuthManager : MonoBehaviour
     {
         notifBox.SetActive(true);
         infoText.text = message;
-        infoText.color = Color.white;
 
         notifBg.color = success
-            ? new Color(0.2f, 0.6f, 0.2f, 0.9f) 
-            : new Color(0.6f, 0.2f, 0.2f, 0.9f); 
+            ? new Color(0.2f, 0.6f, 0.2f, 0.9f)
+            : new Color(0.6f, 0.2f, 0.2f, 0.9f);
 
         StopAllCoroutines();
         StartCoroutine(HideNotif());
@@ -176,30 +164,28 @@ public class AuthManager : MonoBehaviour
         notifBox.SetActive(false);
     }
 
-
     public void SwitchToRegister()
     {
         loginPanel.SetActive(false);
         registerPanel.SetActive(true);
-
         btnToRegister.SetActive(false);
         btnToLogin.SetActive(true);
-
-        notifBox.SetActive(false);
     }
 
     public void SwitchToLogin()
     {
         registerPanel.SetActive(false);
         loginPanel.SetActive(true);
-
         btnToLogin.SetActive(false);
         btnToRegister.SetActive(true);
+    }
 
-        notifBox.SetActive(false);
+    public void Logout()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("SampleScene");
     }
 }
-
 
 [System.Serializable]
 public class LoginResponse
@@ -207,6 +193,7 @@ public class LoginResponse
     public string status;
     public int player_id;
     public string username;
+
 }
 
 [System.Serializable]

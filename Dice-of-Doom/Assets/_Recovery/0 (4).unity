@@ -337,6 +337,7 @@ MonoBehaviour:
   notifBg: {fileID: 333982827}
   loginPanel: {fileID: 2019071175}
   registerPanel: {fileID: 326945404}
+  welcomeText: {fileID: 314974400}
   btnToRegister: {fileID: 1017932262}
   btnToLogin: {fileID: 463080725}
   baseUrl: http://localhost:8000/
@@ -1250,7 +1251,7 @@ GameObject:
   - component: {fileID: 314974398}
   - component: {fileID: 314974401}
   - component: {fileID: 314974400}
-  - component: {fileID: 314974402}
+  - component: {fileID: 314974399}
   m_Layer: 5
   m_Name: name
   m_TagString: Untagged
@@ -1277,6 +1278,19 @@ RectTransform:
   m_AnchoredPosition: {x: 710.1867, y: 460}
   m_SizeDelta: {x: 432.374, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &314974399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314974397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e39120bd745224d41b2963069da36dcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UserUI
+  welcomeText: {fileID: 314974400}
 --- !u!114 &314974400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1377,19 +1391,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 314974397}
   m_CullTransparentMesh: 1
---- !u!114 &314974402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 314974397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5bff4c1435ea4b4aa794c04491be094, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UserUI
-  welcomeText: {fileID: 314974400}
 --- !u!1 &326945404
 GameObject:
   m_ObjectHideFlags: 0
@@ -5451,7 +5452,7 @@ GameObject:
   - component: {fileID: 1446263326}
   - component: {fileID: 1446263325}
   m_Layer: 5
-  m_Name: Title
+  m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
