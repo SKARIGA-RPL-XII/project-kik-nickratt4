@@ -15,8 +15,10 @@ public class InventoryUI : MonoBehaviour
     public InventoryManager manager;
 
     [Header("SLOT UI")]
-    public Image[] slotIcons;
-    public TMP_Text[] qtyTexts;
+    public Image[] slotIcons;  
+        public TMP_Text[] qtyTexts; 
+[Header("SLOT BUTTONS")]
+public UnityEngine.UI.Button[] slotButtons;
 
     [Header("ICON MAP")]
     public List<ItemIconMap> iconMaps = new List<ItemIconMap>();
@@ -34,15 +36,20 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        RefreshUI();
+    }
+
     public void RefreshUI()
     {
         for (int i = 0; i < slotIcons.Length; i++)
         {
             if (i < manager.items.Count)
             {
-                var item = manager.items[i];
+                var item = manager.items[i];      
+                ItemData currentItem = item;  
 
-                // ICON
                 if (iconDict.TryGetValue(item.item_id, out Sprite icon))
                 {
                     slotIcons[i].sprite = icon;
@@ -53,13 +60,30 @@ public class InventoryUI : MonoBehaviour
                     slotIcons[i].gameObject.SetActive(false);
                 }
 
-                // QTY
                 qtyTexts[i].text = item.quantity > 1
                     ? item.quantity.ToString()
                     : "";
+
+if (slotButtons != null && i < slotButtons.Length)
+{
+    UnityEngine.UI.Button uiBtn = slotButtons[i];
+
+    uiBtn.onClick.RemoveAllListeners();
+    uiBtn.onClick.AddListener(() =>
+    {
+        FindFirstObjectByType<InventoryActionUI>()
+            .SelectItem(currentItem, icon);
+    });
+}
+else
+{
+    Debug.LogError("slotButtons belum di-assign dengan benar!");
+}
+
             }
             else
             {
+                
                 slotIcons[i].sprite = null;
                 slotIcons[i].gameObject.SetActive(false);
                 qtyTexts[i].text = "";

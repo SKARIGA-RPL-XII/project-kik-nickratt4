@@ -6,29 +6,53 @@ using System.Collections;
 
 public class InventoryActionUI : MonoBehaviour
 {
+    [Header("REFERENCES")]
     public InventoryManager inventory;
     public PlayerDataManager player;
+    public PlayerWeaponController weaponController;
 
-    public Image previewIcon;
-    public TMP_Text itemNameText;
-    public Image equipIcon;
+    [Header("PREVIEW UI")]
+    public Image previewIcon;      // kotak besar di kanan
+    public TMP_Text itemNameText;  // nama item
+    public GameObject btnUse;      // tombol USE (GameObject)
 
-    ItemData selectedItem;
-    Sprite selectedSprite;
+    [Header("EQUIP SLOT UI")]
+    public Image equipWeaponIcon;  // kotak equip di kanan atas
+
+    private ItemData selectedItem;
+    private Sprite selectedSprite;
 
     public void SelectItem(ItemData item, Sprite icon)
     {
         selectedItem = item;
         selectedSprite = icon;
 
+        // === SAFETY CHECK ===
+        if (previewIcon == null || itemNameText == null || btnUse == null)
+        {
+            Debug.LogError("Preview Icon / Item Name / BtnUse belum di-assign!");
+            return;
+        }
+
+        // === TAMPILKAN PREVIEW ===
         previewIcon.sprite = icon;
         previewIcon.gameObject.SetActive(true);
+
+        // hanya tampilkan nama item
         itemNameText.text = item.item_name;
+
+        // munculkan tombol Use
+        btnUse.SetActive(true);
     }
 
     public void UseItem()
     {
-        if (selectedItem == null) return;
+        if (selectedItem == null)
+        {
+            Debug.LogWarning("Tidak ada item dipilih!");
+            return;
+        }
+
         StartCoroutine(UseItemAPI(selectedItem.item_id));
     }
 
@@ -45,25 +69,39 @@ public class InventoryActionUI : MonoBehaviour
 
         yield return www.SendWebRequest();
 
-        UseResponse res = JsonUtility.FromJson<UseResponse>(www.downloadHandler.text);
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError(www.error);
+            yield break;
+        }
+
+        UseResponse res = JsonUtility.FromJson<UseResponse>(
+            www.downloadHandler.text
+        );
 
         if (res.status == "heal_used")
         {
-            if (player.CurrentHP >= player.MaxHP)
-            {
-                Debug.Log("HP Full");
-                yield break;
-            }
-
             player.Heal(res.heal);
             inventory.LoadInventory();
         }
         else if (res.status == "weapon_equipped")
         {
-            equipIcon.sprite = selectedSprite;
-            equipIcon.gameObject.SetActive(true);
+            // tampilkan icon di slot equip kanan
+            equipWeaponIcon.sprite = selectedSprite;
+            equipWeaponIcon.gameObject.SetActive(true);
 
+            // tampilkan pedang di tangan player
+            weaponController.EquipWeapon(0);
+
+            // set damage player sesuai weapon
             player.SetWeaponDamage(selectedItem.damage);
+
+            // refresh inventory
+            inventory.LoadInventory();
+        }
+        else
+        {
+            Debug.LogWarning("Status tidak dikenal: " + res.status);
         }
     }
 }

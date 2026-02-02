@@ -8,8 +8,8 @@ public class InventoryManager : MonoBehaviour
     public List<ItemData> items = new List<ItemData>();
 
     [Header("UI REF")]
-    public InventoryUI inventoryUI;   // drag grid di inspector
-    public GameObject panel;          // drag inventory panel
+    public InventoryUI inventoryUI;  
+    public GameObject panel;        
 
     public void LoadInventory()
     {

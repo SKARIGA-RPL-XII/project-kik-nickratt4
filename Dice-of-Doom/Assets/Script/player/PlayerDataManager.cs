@@ -7,12 +7,35 @@ public class PlayerDataManager : MonoBehaviour
     [SerializeField]
     private string baseUrl = "http://127.0.0.1/Dice_of_doom_DB/";
 
-    public int MaxHP = 100; // TAMBAHAN
+    public int MaxHP = 100;
+
+    // ==============================
+    // PROPERTIES (ambil dari PlayerPrefs)
+    // ==============================
 
     public int CurrentHP
     {
-        get { return PlayerPrefs.GetInt("hp"); }
+        get { return PlayerPrefs.GetInt("hp", MaxHP); }
     }
+
+    public int BaseDamage
+    {
+        get { return PlayerPrefs.GetInt("base_damage", 0); }
+    }
+
+    public int WeaponDamage
+    {
+        get { return PlayerPrefs.GetInt("weapon_damage", 0); }
+    }
+
+    public int GetTotalDamage()
+    {
+        return BaseDamage + WeaponDamage;
+    }
+
+    // ==============================
+    // LOAD DATA DARI SERVER
+    // ==============================
 
     void Start()
     {
@@ -47,6 +70,10 @@ public class PlayerDataManager : MonoBehaviour
                 PlayerPrefs.SetString("username", res.username);
                 PlayerPrefs.SetInt("hp", res.hp);
                 PlayerPrefs.SetInt("base_damage", res.base_damage);
+
+                // default weapon damage = 0 saat login
+                PlayerPrefs.SetInt("weapon_damage", 0);
+
                 PlayerPrefs.Save();
 
                 FindObjectOfType<UIstats>()?.UpdateStats();
@@ -58,13 +85,9 @@ public class PlayerDataManager : MonoBehaviour
         }
     }
 
-[System.Serializable]
-public class UseResponse
-{
-    public string status;
-    public int heal;
-}
-
+    // ==============================
+    // HEAL SYSTEM
+    // ==============================
 
     public void Heal(int value)
     {
@@ -80,14 +103,41 @@ public class UseResponse
         FindObjectOfType<UIstats>()?.UpdateStats();
     }
 
+    // ==============================
+    // WEAPON DAMAGE SYSTEM (BARU)
+    // ==============================
+
+    /// <summary>
+    /// Dipanggil saat equip weapon
+    /// </summary>
     public void SetWeaponDamage(int dmg)
     {
-        PlayerPrefs.SetInt("base_damage", dmg);
+        PlayerPrefs.SetInt("weapon_damage", dmg);
+        PlayerPrefs.Save();
+
+        Debug.Log(
+            "Weapon Damage Set = " + dmg +
+            " | Total Damage = " + GetTotalDamage()
+        );
+
+        FindObjectOfType<UIstats>()?.UpdateStats();
+    }
+
+    /// <summary>
+    /// Dipanggil saat lepas weapon (opsional)
+    /// </summary>
+    public void ClearWeaponDamage()
+    {
+        PlayerPrefs.SetInt("weapon_damage", 0);
         PlayerPrefs.Save();
 
         FindObjectOfType<UIstats>()?.UpdateStats();
     }
 }
+
+// ==============================
+// RESPONSE CLASS (tetap sama)
+// ==============================
 
 [System.Serializable]
 public class PlayerDataResponse
