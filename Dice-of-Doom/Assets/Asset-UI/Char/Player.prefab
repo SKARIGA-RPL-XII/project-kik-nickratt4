@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 3475768487886631149}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.15171382, y: 0.30740258, z: -1505.4275}
+  m_LocalPosition: {x: 0.15171382, y: 0.30740258, z: -1508.4}
   m_LocalScale: {x: 1.0035324, y: 0.8939241, z: 15.183332}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -73,13 +73,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5070476596134279962}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.99899036, w: -0.044926062}
-  m_LocalPosition: {x: 0.50849015, y: -0.34387994, z: 98.87339}
-  m_LocalScale: {x: -0.8392982, y: -0.83773196, z: -0.83847}
+  m_LocalRotation: {x: -0, y: -0, z: -0.99299085, w: 0.11819142}
+  m_LocalPosition: {x: -0.2701, y: -0.2146, z: 98.62}
+  m_LocalScale: {x: -0.61628467, y: -0.40239188, z: -0.83847}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8135154531069761471}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -185.15}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -166.425}
 --- !u!212 &602659595757511311
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -166,8 +166,8 @@ Transform:
   m_GameObject: {fileID: 8011887291388812972}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.4417, y: -2.4596, z: 99.15}
-  m_LocalScale: {x: 0.99648005, y: 1.1186632, z: 0.065861695}
+  m_LocalPosition: {x: -7.4983, y: -4.0523, z: 99.15}
+  m_LocalScale: {x: 2.666123, y: 2.8520188, z: 0.065861695}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8135154531069761471}
@@ -220,13 +220,13 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee,
+  m_Sprite: {fileID: 4858526914727700145, guid: 69e9df53d1dfb604b97f85ddcbbc1c68,
     type: 3}
-  m_Color: {r: 0, g: 0.436033, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1.14, y: 1.24}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

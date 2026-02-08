@@ -20,6 +20,7 @@ public class AuthManager : MonoBehaviour
     public GameObject notifBox;
     public TMP_Text infoText;
     public Image notifBg;
+    public TMP_Text welcomeText;
 
     [Header("PANELS")]
     public GameObject loginPanel;
@@ -78,16 +79,24 @@ public class AuthManager : MonoBehaviour
 
             if (res.status == "success")
             {
+
+                
                 PlayerPrefs.SetInt("player_id", res.player_id);
                 PlayerPrefs.SetString("username", res.username);
                 PlayerPrefs.Save();
-
-                ShowNotif("Login berhasil", true);
-
+                
                 loginPanel.SetActive(false);
                 registerPanel.SetActive(false);
                 btnToRegister.SetActive(false);
                 btnToLogin.SetActive(false);
+                welcomeText.text =   res.username;
+                welcomeText.gameObject.SetActive(true);
+
+    ShowNotif("Welcome " + res.username , true);
+
+                yield return new WaitForSeconds(0.8f); 
+
+              
             }
             else
             {
