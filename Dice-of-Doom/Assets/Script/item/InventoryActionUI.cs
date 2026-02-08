@@ -12,13 +12,11 @@ public class InventoryActionUI : MonoBehaviour
     public PlayerWeaponController weaponController;
 
     [Header("PREVIEW UI")]
-    public Image previewIcon;      // kotak besar di kanan
-    public TMP_Text itemNameText;  // nama item
-    public GameObject btnUse;      // tombol USE (GameObject)
-
+    public Image previewIcon;      
+        public TMP_Text itemNameText;  
+            public GameObject btnUse;    
     [Header("EQUIP SLOT UI")]
-    public Image equipWeaponIcon;  // kotak equip di kanan atas
-
+    public Image equipWeaponIcon;  
     private ItemData selectedItem;
     private Sprite selectedSprite;
 
@@ -27,21 +25,17 @@ public class InventoryActionUI : MonoBehaviour
         selectedItem = item;
         selectedSprite = icon;
 
-        // === SAFETY CHECK ===
         if (previewIcon == null || itemNameText == null || btnUse == null)
         {
             Debug.LogError("Preview Icon / Item Name / BtnUse belum di-assign!");
             return;
         }
 
-        // === TAMPILKAN PREVIEW ===
         previewIcon.sprite = icon;
         previewIcon.gameObject.SetActive(true);
 
-        // hanya tampilkan nama item
         itemNameText.text = item.item_name;
 
-        // munculkan tombol Use
         btnUse.SetActive(true);
     }
 
@@ -86,17 +80,13 @@ public class InventoryActionUI : MonoBehaviour
         }
         else if (res.status == "weapon_equipped")
         {
-            // tampilkan icon di slot equip kanan
             equipWeaponIcon.sprite = selectedSprite;
             equipWeaponIcon.gameObject.SetActive(true);
 
-            // tampilkan pedang di tangan player
             weaponController.EquipWeapon(0);
 
-            // set damage player sesuai weapon
             player.SetWeaponDamage(selectedItem.damage);
 
-            // refresh inventory
             inventory.LoadInventory();
         }
         else

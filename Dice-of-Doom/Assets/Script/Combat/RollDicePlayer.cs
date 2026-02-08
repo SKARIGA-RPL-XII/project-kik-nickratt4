@@ -6,9 +6,9 @@ using System.Collections;
 public class RollDicePlayer : MonoBehaviour
 {
     [Header("DICE UI")]
-    public GameObject[] diceObjects;   // 5 dice
-    public TMP_Text[] diceTexts;      // 5 text angka dice
-
+    public GameObject[] diceObjects;  
+    
+        public TMP_Text[] diceTexts;      
     [Header("ROLL SETTING")]
     public float rollSpeed = 0.05f;
 
@@ -23,7 +23,6 @@ public class RollDicePlayer : MonoBehaviour
 
     void Start()
     {
-        // Jangan matikan semua dice lagi!
         StartCoroutine(GetPlayerFromAPI());
     }
 
@@ -43,7 +42,6 @@ public class RollDicePlayer : MonoBehaviour
     {
         isRolling = true;
 
-        // diceCount dan maxDice sudah diset di Start()
         while (isRolling)
         {
             for (int i = 0; i < diceCount; i++)

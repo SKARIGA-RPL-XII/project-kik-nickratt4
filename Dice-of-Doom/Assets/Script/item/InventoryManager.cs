@@ -31,12 +31,9 @@ public class InventoryManager : MonoBehaviour
             string json = www.downloadHandler.text;
             Debug.Log(json);
 
-            // PARSE JSON
             ItemData[] data = JsonHelper.FromJson<ItemData>(json);
             items = new List<ItemData>(data);
 
-            // ==== REFRESH UI ====
-            // kalau belum di-drag, cari otomatis sekali
             if (inventoryUI == null)
             {
                 inventoryUI = FindFirstObjectByType<InventoryUI>();

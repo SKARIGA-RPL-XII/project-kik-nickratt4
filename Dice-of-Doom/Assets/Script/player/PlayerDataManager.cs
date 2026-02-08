@@ -9,9 +9,7 @@ public class PlayerDataManager : MonoBehaviour
 
     public int MaxHP = 100;
 
-    // ==============================
     // PROPERTIES (ambil dari PlayerPrefs)
-    // ==============================
 
     public int CurrentHP
     {
@@ -33,9 +31,7 @@ public class PlayerDataManager : MonoBehaviour
         return BaseDamage + WeaponDamage;
     }
 
-    // ==============================
     // LOAD DATA DARI SERVER
-    // ==============================
 
     void Start()
     {
@@ -85,9 +81,8 @@ public class PlayerDataManager : MonoBehaviour
         }
     }
 
-    // ==============================
     // HEAL SYSTEM
-    // ==============================
+    
 
     public void Heal(int value)
     {
@@ -103,13 +98,8 @@ public class PlayerDataManager : MonoBehaviour
         FindObjectOfType<UIstats>()?.UpdateStats();
     }
 
-    // ==============================
-    // WEAPON DAMAGE SYSTEM (BARU)
-    // ==============================
+    // WEAPON 
 
-    /// <summary>
-    /// Dipanggil saat equip weapon
-    /// </summary>
     public void SetWeaponDamage(int dmg)
     {
         PlayerPrefs.SetInt("weapon_damage", dmg);
@@ -123,9 +113,6 @@ public class PlayerDataManager : MonoBehaviour
         FindObjectOfType<UIstats>()?.UpdateStats();
     }
 
-    /// <summary>
-    /// Dipanggil saat lepas weapon (opsional)
-    /// </summary>
     public void ClearWeaponDamage()
     {
         PlayerPrefs.SetInt("weapon_damage", 0);
@@ -135,9 +122,7 @@ public class PlayerDataManager : MonoBehaviour
     }
 }
 
-// ==============================
-// RESPONSE CLASS (tetap sama)
-// ==============================
+
 
 [System.Serializable]
 public class PlayerDataResponse
