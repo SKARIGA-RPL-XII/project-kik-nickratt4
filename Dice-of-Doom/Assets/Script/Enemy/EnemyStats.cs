@@ -10,9 +10,18 @@ public class EnemyStats : MonoBehaviour
     public int levelGame;
     public bool isBoss;
 
+    void Awake()
+    {
+        currentHp = maxHp;
+    }
+
     public void TakeDamage(int dmg)
     {
         currentHp -= dmg;
+
+        Debug.Log(enemyName + " kena " + dmg +
+                  " | HP sisa: " + currentHp);
+
         if (currentHp <= 0)
         {
             Die();
@@ -21,8 +30,7 @@ public class EnemyStats : MonoBehaviour
 
     void Die()
     {
-        Destroy(gameObject); 
-
+        Debug.Log(enemyName + " mati!");
+        Destroy(gameObject);
     }
-    
 }

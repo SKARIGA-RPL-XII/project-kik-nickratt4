@@ -12,6 +12,9 @@ public class RollDicePlayer : MonoBehaviour
     [Header("ROLL SETTING")]
     public float rollSpeed = 0.05f;
 
+public int lastRollTotal;  
+
+
     [Header("API")]
     public string baseUrl = "http://localhost/yourfolder/get_player.php";
 
@@ -54,20 +57,28 @@ public class RollDicePlayer : MonoBehaviour
         }
     }
 
-    void StopRollingAndCalculate()
+   void StopRollingAndCalculate()
+{
+    isRolling = false;
+
+    int total = 0;
+
+    for (int i = 0; i < diceCount; i++)
     {
-        isRolling = false;
-
-        int total = 0;
-
-        for (int i = 0; i < diceCount; i++)
-        {
-            int value = int.Parse(diceTexts[i].text);
-            total += value;
-        }
-
-        Debug.Log("FINAL DAMAGE = " + total);
+        int value = int.Parse(diceTexts[i].text);
+        total += value;
     }
+
+    lastRollTotal = total;   
+
+
+    Debug.Log("FINAL DAMAGE = " + total);
+}
+
+public int GetLastRollDamage()
+{
+    return lastRollTotal;
+}
 
     IEnumerator GetPlayerFromAPI()
     {
