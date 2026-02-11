@@ -33,4 +33,16 @@ public class Button : MonoBehaviour
         }
     }
 #endif
+
+
+
+    public GameObject panelSetting;
+    public void OpenSetting()
+    {
+    panelSetting.SetActive(!panelSetting.activeSelf);
+    
+    
+        }
 }
+
+

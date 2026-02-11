@@ -5,8 +5,11 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
+
 public class AuthManager : MonoBehaviour
 {
+
     [Header("LOGIN UI")]
     public TMP_InputField loginEmail;
     public TMP_InputField loginPassword;
@@ -25,10 +28,14 @@ public class AuthManager : MonoBehaviour
     [Header("PANELS")]
     public GameObject loginPanel;
     public GameObject registerPanel;
+    public GameObject confirmLogoutPanel;
 
     [Header("BUTTON PINDAH PANEL")]
     public GameObject btnToRegister;
     public GameObject btnToLogin;
+
+
+
 
     [Header("CONFIG")]
     [SerializeField]
@@ -188,11 +195,27 @@ public class AuthManager : MonoBehaviour
         btnToLogin.SetActive(false);
         btnToRegister.SetActive(true);
     }
-
+  public Button settingManager;
     public void Logout()
     {
+        confirmLogoutPanel.SetActive(true);
+ 
+    }
+
+    public void ConfirmLogout()
+    {
+        confirmLogoutPanel.SetActive(false); 
+
         PlayerPrefs.DeleteAll();
         SceneManager.LoadScene("SampleScene");
+        
+        settingManager.panelSetting.SetActive(false);
+    }
+
+    public void CancelLogout()
+    {
+        confirmLogoutPanel.SetActive(false);
+
     }
 }
 
