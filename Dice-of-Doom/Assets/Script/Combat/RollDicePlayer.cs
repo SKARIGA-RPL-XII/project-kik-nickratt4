@@ -5,6 +5,9 @@ using System.Collections;
 
 public class RollDicePlayer : MonoBehaviour
 {
+
+    public PlayerAttack playerAttack;   
+
     [Header("DICE UI")]
     public GameObject[] diceObjects;  
     
@@ -57,7 +60,7 @@ public int lastRollTotal;
         }
     }
 
-   void StopRollingAndCalculate()
+void StopRollingAndCalculate()
 {
     isRolling = false;
 
@@ -71,8 +74,19 @@ public int lastRollTotal;
 
     lastRollTotal = total;   
 
-
     Debug.Log("FINAL DAMAGE = " + total);
+
+   if (playerAttack != null)
+{
+    playerAttack.DealDiceDamage();
+}
+else
+{
+    Debug.LogError("PlayerAttack belum di-assign di Inspector!");
+}
+
+
+
 }
 
 public int GetLastRollDamage()

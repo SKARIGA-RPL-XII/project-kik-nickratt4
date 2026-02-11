@@ -6,11 +6,11 @@ public class EnemySpawner : MonoBehaviour
 {
     public Transform spawnPointsParent;
     public Transform enemiesParent;
-    public GameObject[] enemyPrefabs;
+    public GameObject[] enemyPrefabs;   
 
     public int playerLevel = 1;
-  
-   string apiUrl = "http://127.0.0.1/Dice_of_doom_DB/get_enemies.php";
+
+    string apiUrl = "http://127.0.0.1/Dice_of_doom_DB/get_enemies.php";
 
     void Start()
     {
@@ -40,33 +40,53 @@ public class EnemySpawner : MonoBehaviour
             yield break;
         }
 
-        // tentukan jumlah musuh (maks 5)
         int count = Mathf.Min(5, data.enemies.Length);
 
         for (int i = 0; i < count; i++)
         {
             Transform spawn = spawnPointsParent.GetChild(i);
 
-            // Pilih prefab acak (atau nanti bisa dipetakan ke name)
+            // 🔥 PENTING — pilih prefab berdasarkan enemy_id
             GameObject chosenPrefab =
-                enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+                GetPrefabByEnemyId(data.enemies[i].enemy_id);
 
             GameObject enemy =
-                Instantiate(chosenPrefab, spawn.position, Quaternion.identity, enemiesParent);
+                Instantiate(chosenPrefab, spawn.position,
+                             Quaternion.identity, enemiesParent);
 
-            // Kirim data dari API ke enemy
             EnemyStats stats = enemy.GetComponent<EnemyStats>();
             if (stats != null)
             {
-                stats.enemyId = data.enemies[i].enemy_id;
-                stats.enemyName = data.enemies[i].name;
-                stats.maxHp = data.enemies[i].hp;
-                stats.currentHp = data.enemies[i].hp;
-                stats.damage = data.enemies[i].damage;
-                stats.levelGame = data.enemies[i].level_game;
-                stats.isBoss = data.enemies[i].is_boss == 1;
+                stats.enemyId    = data.enemies[i].enemy_id;
+                stats.enemyName  = data.enemies[i].name;
+                stats.maxHp      = data.enemies[i].hp;
+                stats.currentHp  = data.enemies[i].hp;
+                stats.damage     = data.enemies[i].damage;
+                stats.levelGame  = data.enemies[i].level_game;
+                stats.isBoss     = data.enemies[i].is_boss == 1;
+
+                Debug.Log(
+                    "Spawn visual: " + chosenPrefab.name +
+                    " | Data: " + stats.enemyName +
+                    " | HP: " + stats.maxHp
+                );
             }
         }
+    }
+
+    GameObject GetPrefabByEnemyId(int id)
+    {
+        foreach (GameObject prefab in enemyPrefabs)
+        {
+            EnemyStats stats = prefab.GetComponent<EnemyStats>();
+            if (stats != null && stats.enemyId == id)
+            {
+                return prefab;
+            }
+        }
+
+        Debug.LogWarning("Prefab tidak ditemukan untuk enemy_id = " + id);
+        return enemyPrefabs[0];   
     }
 
     public void ClearOldEnemies()

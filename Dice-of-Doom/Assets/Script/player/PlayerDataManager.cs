@@ -9,8 +9,7 @@ public class PlayerDataManager : MonoBehaviour
 
     public int MaxHP = 100;
 
-    // PROPERTIES (ambil dari PlayerPrefs)
-
+public UIstats uIstats;
     public int CurrentHP
     {
         get { return PlayerPrefs.GetInt("hp", MaxHP); }
@@ -31,7 +30,7 @@ public class PlayerDataManager : MonoBehaviour
         return BaseDamage + WeaponDamage;
     }
 
-    // LOAD DATA DARI SERVER
+    
 
     void Start()
     {

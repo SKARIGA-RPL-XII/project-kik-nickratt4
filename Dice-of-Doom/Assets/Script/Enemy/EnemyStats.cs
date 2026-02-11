@@ -10,10 +10,6 @@ public class EnemyStats : MonoBehaviour
     public int levelGame;
     public bool isBoss;
 
-    void Awake()
-    {
-        currentHp = maxHp;
-    }
 
     public void TakeDamage(int dmg)
     {

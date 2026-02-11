@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bade3de8167dfb4989bbac525c1d377, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStats
-  enemyId: 0
+  enemyId: 1
   enemyName: 
   maxHp: 0
   currentHp: 0
@@ -198,17 +198,17 @@ PrefabInstance:
     - target: {fileID: 8593779067963311976, guid: f59c5ae20994ce043927885eb97fbb2f,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.85999995
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 8593779067963311976, guid: f59c5ae20994ce043927885eb97fbb2f,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.0930011
+      value: 0.3177329
       objectReference: {fileID: 0}
     - target: {fileID: 8593779067963311976, guid: f59c5ae20994ce043927885eb97fbb2f,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.16349809
+      value: 0.047528517
       objectReference: {fileID: 0}
     - target: {fileID: 8593779067963311976, guid: f59c5ae20994ce043927885eb97fbb2f,
         type: 3}
@@ -218,7 +218,7 @@ PrefabInstance:
     - target: {fileID: 8593779067963311976, guid: f59c5ae20994ce043927885eb97fbb2f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.983
+      value: 0.83
       objectReference: {fileID: 0}
     - target: {fileID: 8593779067963311976, guid: f59c5ae20994ce043927885eb97fbb2f,
         type: 3}
