@@ -2,7 +2,20 @@ using UnityEngine;
 
 public class ClickInput : MonoBehaviour
 {
-    private TargetManager targetManager = new TargetManager();
+    public TargetManager targetManager;  
+
+    void Awake()
+    {
+        if (targetManager == null)
+        {
+            targetManager = FindObjectOfType<TargetManager>();
+
+            if (targetManager == null)
+            {
+                Debug.LogError("TIDAK ADA TargetManager di Scene!");
+            }
+        }
+    }
 
     void Update()
     {
@@ -16,7 +29,11 @@ public class ClickInput : MonoBehaviour
             if (hit.collider != null)
             {
                 ITarget target = hit.collider.GetComponent<ITarget>();
-                targetManager.SetTarget(target);
+
+                if (target != null && targetManager != null)
+                {
+                    targetManager.SetTarget(target);
+                }
             }
         }
     }

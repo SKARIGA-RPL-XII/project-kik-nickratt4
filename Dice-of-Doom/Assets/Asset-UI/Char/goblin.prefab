@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b34b33d71883b46ab5bae562e9315d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClickInput
+  targetManager: {fileID: 0}
 --- !u!114 &8316218230994229029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,7 +194,7 @@ PrefabInstance:
     - target: {fileID: 1092197817146651577, guid: f59c5ae20994ce043927885eb97fbb2f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8593779067963311976, guid: f59c5ae20994ce043927885eb97fbb2f,
         type: 3}
