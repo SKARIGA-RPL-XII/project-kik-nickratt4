@@ -4690,7 +4690,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Your Name
+  m_text: Your Email
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a30f5a5c9638bfe4d987785f6025335b, type: 2}
   m_sharedMaterial: {fileID: 3368481507545758952, guid: a30f5a5c9638bfe4d987785f6025335b,
