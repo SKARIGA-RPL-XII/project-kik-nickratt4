@@ -16,6 +16,7 @@ public class PlayerAttack : MonoBehaviour
     public AudioClip attackSoundClip;
     
     private Vector3 originalPosition;
+    private bool originalFlipX; 
     private bool isAttacking = false;
     private SpriteRenderer spriteRenderer;
     
@@ -23,6 +24,11 @@ public class PlayerAttack : MonoBehaviour
     {
         originalPosition = transform.position;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        
+        if (spriteRenderer != null)
+        {
+            originalFlipX = spriteRenderer.flipX; 
+        }
         
         if (audioSource == null)
         {
@@ -63,17 +69,19 @@ public class PlayerAttack : MonoBehaviour
         isAttacking = true;
         originalPosition = transform.position;
         
-        // Hitung posisi target (di depan enemy)
+        if (spriteRenderer != null)
+        {
+            originalFlipX = spriteRenderer.flipX;
+        }
+        
         Vector3 directionToEnemy = (enemy.position - transform.position).normalized;
         Vector3 attackPosition = enemy.position - (directionToEnemy * attackDistance);
         
-        // Flip sprite berdasarkan arah ke enemy
         if (spriteRenderer != null)
         {
             spriteRenderer.flipX = directionToEnemy.x < 0;
         }
         
-        // Gerak ke enemy
         while (Vector3.Distance(transform.position, attackPosition) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(
@@ -85,27 +93,21 @@ public class PlayerAttack : MonoBehaviour
             yield return null;
         }
         
-        // PUTAR SOUND EFFECT PEDANG
         PlayAttackSound();
         
-        // Serang!
         int damage = dice.GetLastRollDamage();
         Debug.Log("Player menyerang " + stats.enemyName + " dengan damage: " + damage);
         stats.TakeDamage(damage);
         
-        // Delay sebentar
         yield return new WaitForSeconds(returnDelay);
         
-        // Hitung arah kembali ke posisi awal
         Vector3 directionToOriginal = (originalPosition - transform.position).normalized;
         
-        // Flip sprite berdasarkan arah kembali
         if (spriteRenderer != null)
         {
             spriteRenderer.flipX = directionToOriginal.x < 0;
         }
         
-        // Kembali ke posisi awal
         while (Vector3.Distance(transform.position, originalPosition) > 0.1f)
         {
             transform.position = Vector3.MoveTowards(
@@ -117,6 +119,13 @@ public class PlayerAttack : MonoBehaviour
         }
         
         transform.position = originalPosition;
+        
+        // Kembalikan flip ke state awal
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.flipX = originalFlipX;
+        }
+        
         isAttacking = false;
     }
     

@@ -80,7 +80,6 @@ public UIstats uIstats;
         }
     }
 
-    // HEAL SYSTEM
     
 
     public void Heal(int value)
@@ -97,7 +96,6 @@ public UIstats uIstats;
         FindObjectOfType<UIstats>()?.UpdateStats();
     }
 
-    // WEAPON 
 
     public void SetWeaponDamage(int dmg)
     {
