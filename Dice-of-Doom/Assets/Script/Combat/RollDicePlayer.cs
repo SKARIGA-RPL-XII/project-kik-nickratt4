@@ -5,18 +5,17 @@ using System.Collections;
 
 public class RollDicePlayer : MonoBehaviour
 {
-
-    public PlayerAttack playerAttack;   
+    public PlayerAttack playerAttack;
+    public EnemyDiceRoller enemyDiceRoller; // TAMBAH REFERENCE INI
 
     [Header("DICE UI")]
     public GameObject[] diceObjects;  
+    public TMP_Text[] diceTexts;
     
-        public TMP_Text[] diceTexts;      
     [Header("ROLL SETTING")]
     public float rollSpeed = 0.05f;
 
-public int lastRollTotal;  
-
+    public int lastRollTotal;  
 
     [Header("API")]
     public string baseUrl = "http://localhost/yourfolder/get_player.php";
@@ -27,13 +26,46 @@ public int lastRollTotal;
     private int[] maxDice = new int[5];
     private int[] currentDice = new int[5];
 
-    void Start()
+[Header("Turn Indicator")]
+public TurnIndicator turnIndicator;
+void Start()
+{
+    if (enemyDiceRoller == null)
     {
-        StartCoroutine(GetPlayerFromAPI());
+        enemyDiceRoller = FindObjectOfType<EnemyDiceRoller>();
     }
+    
+    if (turnIndicator == null)
+    {
+        turnIndicator = FindObjectOfType<TurnIndicator>();
+    }
+    
+    StartCoroutine(GetPlayerFromAPI());
+    
+    if (turnIndicator != null)
+    {
+        Invoke("ShowPlayerTurnDelayed", 1f);
+    }
+}
+
+void ShowPlayerTurnDelayed()
+{
+    if (turnIndicator != null)
+    {
+        turnIndicator.ShowPlayerTurn();
+    }
+}
 
     public void OnRollButtonClicked()
     {
+        if (enemyDiceRoller != null && enemyDiceRoller.IsEnemyTurn())
+        {
+            Debug.Log("Enemy turn - delegating to enemy dice roller");
+            enemyDiceRoller.OnEnemyRollButtonClicked();
+            return;
+        }
+        
+        // Player turn normal
         if (!isRolling)
         {
             StartCoroutine(StartRolling());
@@ -60,39 +92,36 @@ public int lastRollTotal;
         }
     }
 
-void StopRollingAndCalculate()
-{
-    isRolling = false;
-
-    int total = 0;
-
-    for (int i = 0; i < diceCount; i++)
+    void StopRollingAndCalculate()
     {
-        int value = int.Parse(diceTexts[i].text);
-        total += value;
+        isRolling = false;
+
+        int total = 0;
+
+        for (int i = 0; i < diceCount; i++)
+        {
+            int value = int.Parse(diceTexts[i].text);
+            total += value;
+        }
+
+        lastRollTotal = total;   
+
+        Debug.Log("FINAL DAMAGE = " + total);
+
+        if (playerAttack != null)
+        {
+            playerAttack.DealDiceDamage();
+        }
+        else
+        {
+            Debug.LogError("PlayerAttack belum di-assign di Inspector!");
+        }
     }
 
-    lastRollTotal = total;   
-
-    Debug.Log("FINAL DAMAGE = " + total);
-
-   if (playerAttack != null)
-{
-    playerAttack.DealDiceDamage();
-}
-else
-{
-    Debug.LogError("PlayerAttack belum di-assign di Inspector!");
-}
-
-
-
-}
-
-public int GetLastRollDamage()
-{
-    return lastRollTotal;
-}
+    public int GetLastRollDamage()
+    {
+        return lastRollTotal;
+    }
 
     IEnumerator GetPlayerFromAPI()
     {
@@ -111,17 +140,14 @@ public int GetLastRollDamage()
                 baseDamage = data.base_damage;
                 Debug.Log("Base Damage = " + baseDamage);
 
-                // ====== PENTING: SET DICE DI SINI ======
                 diceCount = GetDiceCount(baseDamage);
                 maxDice = GetMaxPerDice(baseDamage, diceCount);
 
-                // aktifkan dice sesuai baseDamage
                 for (int i = 0; i < diceObjects.Length; i++)
                 {
                     diceObjects[i].SetActive(i < diceCount);
                 }
 
-                // isi angka awal (acak biar nggak kosong)
                 for (int i = 0; i < diceCount; i++)
                 {
                     currentDice[i] = Random.Range(0, maxDice[i] + 1);
@@ -169,7 +195,7 @@ public int GetLastRollDamage()
             max[1] = baseVal + Mathf.Max(0, sisa - 1);
             max[2] = baseVal;
         }
-        else // 5 dice
+        else
         {
             int baseVal = dmg / 5;
             int sisa = dmg % 5;

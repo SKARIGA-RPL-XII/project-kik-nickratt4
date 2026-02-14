@@ -15,8 +15,14 @@ public class PlayerAttack : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip attackSoundClip;
     
+    [Header("Enemy Turn")]
+    public EnemyDiceRoller enemyDiceRoller;
+    
+    [Header("Turn Indicator")]
+    public TurnIndicator turnIndicator;
+    
     private Vector3 originalPosition;
-    private bool originalFlipX; 
+    private bool originalFlipX;
     private bool isAttacking = false;
     private SpriteRenderer spriteRenderer;
     
@@ -27,7 +33,7 @@ public class PlayerAttack : MonoBehaviour
         
         if (spriteRenderer != null)
         {
-            originalFlipX = spriteRenderer.flipX; 
+            originalFlipX = spriteRenderer.flipX;
         }
         
         if (audioSource == null)
@@ -38,6 +44,16 @@ public class PlayerAttack : MonoBehaviour
                 audioSource = gameObject.AddComponent<AudioSource>();
             }
         }
+        
+        if (turnIndicator == null)
+        {
+            turnIndicator = FindObjectOfType<TurnIndicator>();
+        }
+        
+        if (enemyDiceRoller == null)
+        {
+            enemyDiceRoller = FindObjectOfType<EnemyDiceRoller>();
+        }
     }
     
     public void DealDiceDamage()
@@ -45,7 +61,7 @@ public class PlayerAttack : MonoBehaviour
         TargetManager tm = clickInput.GetTargetManager();
         if (tm.CurrentTarget == null)
         {
-            Debug.LogWarning("Tidak ada musuh terpilih!");
+            Debug.LogWarning("No enemy selected!");
             return;
         }
         
@@ -54,7 +70,7 @@ public class PlayerAttack : MonoBehaviour
         
         if (stats == null)
         {
-            Debug.LogError("Target tidak punya EnemyStats!");
+            Debug.LogError("Target missing EnemyStats component!");
             return;
         }
         
@@ -96,7 +112,7 @@ public class PlayerAttack : MonoBehaviour
         PlayAttackSound();
         
         int damage = dice.GetLastRollDamage();
-        Debug.Log("Player menyerang " + stats.enemyName + " dengan damage: " + damage);
+        Debug.Log("Player attacks " + stats.enemyName + " for " + damage + " damage");
         stats.TakeDamage(damage);
         
         yield return new WaitForSeconds(returnDelay);
@@ -120,13 +136,36 @@ public class PlayerAttack : MonoBehaviour
         
         transform.position = originalPosition;
         
-        // Kembalikan flip ke state awal
         if (spriteRenderer != null)
         {
             spriteRenderer.flipX = originalFlipX;
         }
         
+        TargetManager tm = clickInput.GetTargetManager();
+        if (tm != null)
+        {
+            tm.ClearTarget();
+        }
+        
         isAttacking = false;
+        
+        if (enemyDiceRoller != null)
+        {
+            yield return new WaitForSeconds(0.5f);
+            
+            if (turnIndicator != null)
+            {
+                turnIndicator.ShowEnemyTurn();
+            }
+            
+            yield return new WaitForSeconds(1f);
+            
+            enemyDiceRoller.StartEnemyTurn();
+        }
+        else
+        {
+            Debug.LogWarning("EnemyDiceRoller not assigned!");
+        }
     }
     
     private void PlayAttackSound()
@@ -134,10 +173,6 @@ public class PlayerAttack : MonoBehaviour
         if (audioSource != null && attackSoundClip != null)
         {
             audioSource.PlayOneShot(attackSoundClip);
-        }
-        else
-        {
-            Debug.LogWarning("Audio Source atau Attack Sound Clip belum diset!");
         }
     }
 }

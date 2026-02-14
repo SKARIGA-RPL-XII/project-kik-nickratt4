@@ -14,7 +14,6 @@ public class AutoSelectClosestEnemy : MonoBehaviour
     
     IEnumerator SelectWithDelay()
     {
-        // Tunggu sebentar untuk memastikan enemy sudah spawn
         yield return new WaitForSeconds(0.1f);
         
         EnemyTarget closest = null;
@@ -22,7 +21,6 @@ public class AutoSelectClosestEnemy : MonoBehaviour
         
         foreach (Transform enemy in enemiesParent)
         {
-            // Pastikan enemy masih aktif
             if (!enemy.gameObject.activeInHierarchy) continue;
             
             float dist = Vector2.Distance(player.position, enemy.position);
