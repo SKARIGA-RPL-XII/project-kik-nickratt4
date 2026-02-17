@@ -8,13 +8,11 @@ public class EnemyOriginalPosition : MonoBehaviour
     
     void Awake()
     {
-        // JANGAN save di Awake karena posisi belum final
-        // Biarkan spawner yang set posisi
+ 
     }
     
     void Start()
     {
-        // Hanya save jika belum pernah di-set dari luar
         if (!isInitialized)
         {
             SaveInitialState();
@@ -23,7 +21,6 @@ public class EnemyOriginalPosition : MonoBehaviour
     
     void SaveInitialState()
     {
-        // Hanya save jika belum pernah di-set
         if (!isInitialized)
         {
             originalPosition = transform.position;
@@ -42,7 +39,7 @@ public class EnemyOriginalPosition : MonoBehaviour
     public void SetOriginalPosition(Vector3 pos)
     {
         originalPosition = pos;
-        isInitialized = true; // Mark as initialized
+        isInitialized = true;
         Debug.Log(gameObject.name + " original position set (manual): " + pos);
     }
     

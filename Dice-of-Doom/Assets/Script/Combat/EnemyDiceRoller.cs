@@ -23,6 +23,9 @@ public class EnemyDiceRoller : MonoBehaviour
     
     [Header("Turn Indicator")]
     public TurnIndicator turnIndicator;
+
+    [Header("Enemy Movement Settings")]
+    public float enemyspeed = 25f;
     
     private int[] currentDiceValues;
     private int[] maxDiceValues;
@@ -456,7 +459,7 @@ public class EnemyDiceRoller : MonoBehaviour
             eop.SetOriginalFlip(originalFlip);
         }
         
-        float moveSpeed = 5f;
+        float moveSpeed = enemyspeed    ;
         while (Vector3.Distance(enemy.transform.position, attackPos) > 0.1f)
         {
             enemy.transform.position = Vector3.MoveTowards(
@@ -489,7 +492,7 @@ public class EnemyDiceRoller : MonoBehaviour
             sr.flipX = directionBack.x > 0;
         }
         
-        float moveSpeed = 5f;
+        float moveSpeed = enemyspeed    ;
         float timeout = 5f;
         float elapsed = 0f;
         
