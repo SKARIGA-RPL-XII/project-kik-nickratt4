@@ -26,7 +26,7 @@ public class StageManager : MonoBehaviour
     public string url = "http://127.0.0.1/Dice_of_doom_DB/update_player_level.php";
     
     [Header("AUTO SELECT")]
-    public AutoSelectClosestEnemy autoSelect; // TAMBAHAN BARU
+    public AutoSelectClosestEnemy autoSelect;
     
     void Start()
     {
@@ -40,7 +40,6 @@ public class StageManager : MonoBehaviour
         spawner.playerLevel = currentLevel;
         yield return StartCoroutine(spawner.SpawnFromAPI());
         
-        // AUTO SELECT UNTUK STAGE PERTAMA
         if (autoSelect != null)
         {
             autoSelect.SelectClosestEnemy();
@@ -62,7 +61,18 @@ public class StageManager : MonoBehaviour
     IEnumerator OnStageClear()
     {
         stageClearing = true;
-        battleStarted = false; 
+        battleStarted = false;
+        
+        if (GameAudioManager.Instance != null)
+        {
+            GameAudioManager.Instance.StopMusic();
+        }
+        
+        if (GameAudioManager.Instance != null)
+        {
+            GameAudioManager.Instance.PlayNewStageSFX();
+        }
+        
         yield return new WaitForSeconds(0.3f);
         
         int nextLevel = currentLevel + 1;
@@ -72,8 +82,11 @@ public class StageManager : MonoBehaviour
         nextFloorText.text = "NEXT FLOOR\nLEVEL " + nextLevel;
         yield return null;
         
-        nextFloorAnimator.ResetTrigger("PlayNextStage");
-        nextFloorAnimator.SetTrigger("PlayNextStage");
+        if (nextFloorAnimator != null)
+        {
+            nextFloorAnimator.ResetTrigger("PlayNextStage");
+            nextFloorAnimator.SetTrigger("PlayNextStage");
+        }
         
         yield return new WaitForSeconds(2f);
         
@@ -81,7 +94,11 @@ public class StageManager : MonoBehaviour
         spawner.playerLevel = currentLevel;
         yield return StartCoroutine(spawner.SpawnFromAPI());
         
-        // AUTO SELECT ENEMY TERDEKAT SETELAH SPAWN
+        if (GameAudioManager.Instance != null)
+        {
+            GameAudioManager.Instance.RestartMusic();
+        }
+        
         if (autoSelect != null)
         {
             autoSelect.SelectClosestEnemy();

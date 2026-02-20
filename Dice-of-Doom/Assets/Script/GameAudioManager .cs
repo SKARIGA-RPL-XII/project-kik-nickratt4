@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class GameAudioManager : MonoBehaviour
 {
+    public static GameAudioManager Instance;
+    
     [Header("Sources")]
     public AudioSource musicSource;
     public AudioSource sfxSource;
@@ -9,26 +11,32 @@ public class GameAudioManager : MonoBehaviour
     [Header("Music")]
     public AudioClip gameMusic;
     
+    [Header("SFX")]
+    public AudioClip newStageSFX;
+    
     private float musicVolume = 1f;
+    
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
     
     void Start()
     {
-        // Load volume setting dari Lobby
         LoadVolume();
-        
-        // Play game music
         PlayMusic(gameMusic);
     }
     
     void LoadVolume()
     {
-        // Ambil setting volume yang disimpan dari Lobby
         musicVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
         
         if (musicSource != null)
         {
             musicSource.volume = musicVolume;
-            Debug.Log($"Game music volume loaded: {musicVolume}");
         }
     }
     
@@ -40,12 +48,50 @@ public class GameAudioManager : MonoBehaviour
             return;
         }
         
+        if (musicSource.clip == clip && musicSource.isPlaying)
+        {
+            return;
+        }
+        
         musicSource.clip = clip;
         musicSource.loop = true;
         musicSource.volume = musicVolume;
         musicSource.Play();
+    }
+    
+    public void RestartMusic()
+    {
+        if (musicSource != null && musicSource.clip != null)
+        {
+            musicSource.Stop();
+            musicSource.Play();
+            Debug.Log("Music restarted from beginning!");
+        }
+    }
+    
+    public void StopMusic()
+    {
+        if (musicSource != null)
+        {
+            musicSource.Stop();
+        }
+    }
+    
+    public void PlayNewStageSFX()
+    {
+        if (newStageSFX == null)
+        {
+            Debug.LogError("New Stage SFX is NULL!");
+            return;
+        }
         
-        Debug.Log($"Playing game music: {clip.name}");
+        if (sfxSource == null)
+        {
+            Debug.LogError("SFX Source is NULL!");
+            return;
+        }
+        
+        sfxSource.PlayOneShot(newStageSFX);
     }
     
     public void PlaySFX(AudioClip clip)
