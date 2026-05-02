@@ -245,4 +245,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDataManager
   baseUrl: http://127.0.0.1/Dice_of_doom_DB/
-  MaxHP: 75
+  uIstats: {fileID: 0}
+  autoSaveToDatabase: 1
+  autoSaveInterval: 5

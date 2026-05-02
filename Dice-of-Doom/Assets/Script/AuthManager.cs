@@ -34,6 +34,9 @@ public class AuthManager : MonoBehaviour
     public GameObject btnToRegister;
     public GameObject btnToLogin;
 
+    public TMP_InputField passwordField;
+    private bool isHidden = true;
+
 
 
 
@@ -43,6 +46,26 @@ public class AuthManager : MonoBehaviour
 
     void Start()
     {
+
+
+        isHidden = !isHidden;
+
+        if (isHidden)   
+        {
+            passwordField.contentType = TMP_InputField.ContentType.Password;
+        }
+        else
+        {
+            passwordField.contentType = TMP_InputField.ContentType.Standard;
+        }
+
+        passwordField.ForceLabelUpdate();
+    
+
+
+
+
+        
         notifBox.SetActive(false);
 
         if (PlayerPrefs.HasKey("player_id"))
@@ -57,6 +80,7 @@ public class AuthManager : MonoBehaviour
             SwitchToLogin();
         }
     }
+
 
     // login
     public void OnLoginClick()
@@ -216,9 +240,12 @@ public class AuthManager : MonoBehaviour
     {
         confirmLogoutPanel.SetActive(false);
 
-    }
-}
 
+    }
+
+
+
+}
 [System.Serializable]
 public class LoginResponse
 {
